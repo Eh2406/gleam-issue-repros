@@ -1,0 +1,8 @@
+[package]
+name = "pubgrub_repro_2024_05_26"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+hexpm = "2.4.0"
+pubgrub = "0.2.1"
