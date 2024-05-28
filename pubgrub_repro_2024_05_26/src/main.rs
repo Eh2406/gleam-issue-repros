@@ -82,20 +82,20 @@ impl Issue3201DependencyProvider {
         };
 
         this.make_ver_available("gleam_add_issue_2024_05_26", "0.0.0");
-        this.make_ver_available("birl", "1.7.0");
-        this.make_ver_available("gleam_javascript", "0.8.0");
-        this.make_ver_available("gleam_community_colour", "1.4.0");
-        this.make_ver_available("gleam_community_ansi", "1.4.0");
-        this.make_ver_available("gleam_erlang", "0.25.0");
-        this.make_ver_available("tom", "0.3.0");
+        this.make_ver_available("birl", "0.0.0");
+        this.make_ver_available("gleam_javascript", "0.0.0");
+        this.make_ver_available("gleam_community_colour", "0.0.0");
+        this.make_ver_available("gleam_community_ansi", "0.0.0");
+        this.make_ver_available("gleam_erlang", "0.0.0");
+        this.make_ver_available("tom", "0.0.0");
         this.make_ver_available("glint", "1.0.0-rc2");
-        this.make_ver_available("exception", "2.0.0");
-        this.make_ver_available("ranger", "1.2.0");
-        this.make_ver_available("filepath", "1.0.0");
-        this.make_ver_available("startest", "0.2.4");
-        this.make_ver_available("gleam_json", "1.0.1");
-        this.make_ver_available("bigben", "1.0.0");
-        this.make_ver_available("gleam_stdlib", "0.38.0");
+        this.make_ver_available("exception", "0.0.0");
+        this.make_ver_available("ranger", "0.0.0");
+        this.make_ver_available("filepath", "0.0.0");
+        this.make_ver_available("startest", "0.0.0");
+        this.make_ver_available("gleam_json", "0.0.0");
+        this.make_ver_available("bigben", "0.0.0");
+        this.make_ver_available("gleam_stdlib", "0.0.0");
 
         this.record_deps(
             "gleam_add_issue_2024_05_26",
@@ -114,27 +114,27 @@ impl Issue3201DependencyProvider {
                 ("birl", ">=0.0.0"),
             ],
         );
-        this.record_deps("gleam_stdlib", "0.38.0", &[]);
-        this.record_deps("birl", "1.7.0", &[("ranger", ">=0.0.0")]);
-        this.record_deps("bigben", "1.0.0", &[]);
-        this.record_deps("gleam_javascript", "0.8.0", &[]);
+        this.record_deps("gleam_stdlib", "0.0.0", &[]);
+        this.record_deps("birl", "0.0.0", &[("ranger", ">=0.0.0")]);
+        this.record_deps("bigben", "0.0.0", &[]);
+        this.record_deps("gleam_javascript", "0.0.0", &[]);
         this.record_deps(
             "gleam_community_colour",
-            "1.4.0",
+            "0.0.0",
             &[("gleam_json", ">=0.0.0")],
         );
         this.record_deps(
             "gleam_community_ansi",
-            "1.4.0",
+            "0.0.0",
             &[("gleam_community_colour", ">=0.0.0")],
         );
-        this.record_deps("gleam_erlang", "0.25.0", &[]);
-        this.record_deps("tom", "0.3.0", &[]);
+        this.record_deps("gleam_erlang", "0.0.0", &[]);
+        this.record_deps("tom", "0.0.0", &[]);
         this.record_deps("glint", "1.0.0-rc2", &[]);
-        this.record_deps("exception", "2.0.0", &[]);
-        this.record_deps("ranger", "1.2.0", &[]);
-        this.record_deps("filepath", "1.0.0", &[]);
-        this.record_deps("startest", "0.2.4", &[("glint", "<1.0.0-rc3")]);
+        this.record_deps("exception", "0.0.0", &[]);
+        this.record_deps("ranger", "0.0.0", &[]);
+        this.record_deps("filepath", "0.0.0", &[]);
+        this.record_deps("startest", "0.0.0", &[("glint", "<1.0.0-rc3")]);
 
         this
     }
