@@ -82,34 +82,15 @@ impl Issue3201DependencyProvider {
         };
 
         this.make_ver_available("gleam_add_issue_2024_05_26", "0.0.0");
-        this.make_ver_available("argv", "1.0.2");
         this.make_ver_available("birl", "1.7.0");
         this.make_ver_available("gleam_javascript", "0.8.0");
         this.make_ver_available("gleam_community_colour", "1.4.0");
         this.make_ver_available("gleam_community_ansi", "1.4.0");
         this.make_ver_available("gleam_erlang", "0.25.0");
         this.make_ver_available("tom", "0.3.0");
-        this.make_ver_available("thoas", "1.2.1");
         this.make_ver_available("glint", "1.0.0-rc2");
-        this.make_ver_available("wisp", "0.14.0");
-        this.make_ver_available("wisp", "0.13.0");
-        this.make_ver_available("wisp", "0.12.0");
-        this.make_ver_available("wisp", "0.11.0");
-        this.make_ver_available("wisp", "0.10.0");
-        this.make_ver_available("wisp", "0.9.0");
-        this.make_ver_available("wisp", "0.8.0");
-        this.make_ver_available("wisp", "0.7.0");
-        this.make_ver_available("wisp", "0.6.0");
-        this.make_ver_available("wisp", "0.5.0");
-        this.make_ver_available("wisp", "0.4.0");
-        this.make_ver_available("wisp", "0.3.0");
-        this.make_ver_available("wisp", "0.2.0");
-        this.make_ver_available("wisp", "0.1.0");
-        this.make_ver_available("snag", "0.3.0");
-        this.make_ver_available("gleam_otp", "0.10.0");
         this.make_ver_available("exception", "2.0.0");
         this.make_ver_available("ranger", "1.2.0");
-        this.make_ver_available("simplifile", "1.7.0");
         this.make_ver_available("filepath", "1.0.0");
         this.make_ver_available("startest", "0.2.4");
         this.make_ver_available("gleam_json", "1.0.1");
@@ -134,7 +115,6 @@ impl Issue3201DependencyProvider {
             ],
         );
         this.record_deps("gleam_stdlib", "0.38.0", &[]);
-        this.record_deps("argv", "1.0.2", &[]);
         this.record_deps("birl", "1.7.0", &[("ranger", ">= 1.2.0 and < 2.0.0")]);
         this.record_deps("bigben", "1.0.0", &[]);
         this.record_deps("gleam_javascript", "0.8.0", &[]);
@@ -150,13 +130,9 @@ impl Issue3201DependencyProvider {
         );
         this.record_deps("gleam_erlang", "0.25.0", &[]);
         this.record_deps("tom", "0.3.0", &[]);
-        this.record_deps("thoas", "1.2.1", &[]);
         this.record_deps("glint", "1.0.0-rc2", &[]);
-        this.record_deps("snag", "0.3.0", &[]);
-        this.record_deps("gleam_otp", "0.10.0", &[]);
         this.record_deps("exception", "2.0.0", &[]);
         this.record_deps("ranger", "1.2.0", &[]);
-        this.record_deps("simplifile", "1.7.0", &[]);
         this.record_deps("filepath", "1.0.0", &[]);
         this.record_deps(
             "startest",
