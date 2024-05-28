@@ -6,8 +6,18 @@ use pubgrub::{
     type_aliases::Map,
 };
 
+use pubgrub::version::Version as _;
+
 fn main() {
     let dependency_provider = Issue3201DependencyProvider::new();
+
+    let rc2 = Version::parse("1.0.0-rc2").unwrap();
+    let rc3 = Version::parse("1.0.0-rc3").unwrap();
+    let bump = rc2.bump();
+    dbg!(rc2 < rc3, rc3 < bump);
+
+    let exact = pubgrub::range::Range::exact(rc2);
+    dbg!(exact.contains(&rc3));
 
     let result = pubgrub::solver::resolve(
         &dependency_provider,
