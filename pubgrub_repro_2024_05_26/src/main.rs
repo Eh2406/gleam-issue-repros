@@ -101,32 +101,32 @@ impl Issue3201DependencyProvider {
             "gleam_add_issue_2024_05_26",
             "0.0.0",
             &[
-                ("bigben", "1.0.0"),
-                ("gleam_stdlib", "0.38.0"),
-                ("gleam_javascript", "0.8.0"),
-                ("gleam_community_ansi", "1.4.0"),
-                ("gleam_erlang", "0.25.0"),
-                ("tom", "0.3.0"),
-                ("glint", "1.0.0-rc2"),
-                ("exception", "2.0.0"),
-                ("filepath", "1.0.0"),
-                ("startest", "0.2.4"),
-                ("birl", "1.7.0"),
+                ("bigben", ">=0.0.0"),
+                ("gleam_stdlib", ">=0.0.0"),
+                ("gleam_javascript", ">=0.0.0"),
+                ("gleam_community_ansi", ">=0.0.0"),
+                ("gleam_erlang", ">=0.0.0"),
+                ("tom", ">=0.0.0"),
+                ("glint", ">=0.0.0"),
+                ("exception", ">=0.0.0"),
+                ("filepath", ">=0.0.0"),
+                ("startest", ">=0.0.0"),
+                ("birl", ">=0.0.0"),
             ],
         );
         this.record_deps("gleam_stdlib", "0.38.0", &[]);
-        this.record_deps("birl", "1.7.0", &[("ranger", ">= 1.2.0 and < 2.0.0")]);
+        this.record_deps("birl", "1.7.0", &[("ranger", ">=0.0.0")]);
         this.record_deps("bigben", "1.0.0", &[]);
         this.record_deps("gleam_javascript", "0.8.0", &[]);
         this.record_deps(
             "gleam_community_colour",
             "1.4.0",
-            &[("gleam_json", ">= 0.7.0 and < 2.0.0")],
+            &[("gleam_json", ">=0.0.0")],
         );
         this.record_deps(
             "gleam_community_ansi",
             "1.4.0",
-            &[("gleam_community_colour", ">= 1.3.0 and < 2.0.0")],
+            &[("gleam_community_colour", ">=0.0.0")],
         );
         this.record_deps("gleam_erlang", "0.25.0", &[]);
         this.record_deps("tom", "0.3.0", &[]);
@@ -134,11 +134,7 @@ impl Issue3201DependencyProvider {
         this.record_deps("exception", "2.0.0", &[]);
         this.record_deps("ranger", "1.2.0", &[]);
         this.record_deps("filepath", "1.0.0", &[]);
-        this.record_deps(
-            "startest",
-            "0.2.4",
-            &[("glint", ">= 1.0.0-rc2 and < 1.0.0-rc3")],
-        );
+        this.record_deps("startest", "0.2.4", &[("glint", "<1.0.0-rc3")]);
 
         this
     }
