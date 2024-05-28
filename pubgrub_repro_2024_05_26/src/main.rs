@@ -20,7 +20,7 @@ fn main() {
     assert!(result.is_ok());
 }
 
-type PackageName = String;
+type PackageName = &'static str;
 
 type PubgrubRange = pubgrub::range::Range<Version>;
 
@@ -35,12 +35,12 @@ impl pubgrub::solver::DependencyProvider<PackageName, Version> for Issue3201Depe
         potential_packages: impl Iterator<Item = (Name, Ver)>,
     ) -> Result<(Name, Option<Version>), Box<dyn StdError>> {
         Ok(choose_package_with_fewest_versions(
-            |name: &String| {
-                let Some(available_versions) = self.available_versions.get(name) else {
-                    return Vec::new().into_iter();
-                };
-
-                available_versions.clone().into_iter()
+            |name| {
+                self.available_versions
+                    .get(name)
+                    .into_iter()
+                    .flatten()
+                    .cloned()
             },
             potential_packages.into_iter(),
         ))
@@ -52,7 +52,7 @@ impl pubgrub::solver::DependencyProvider<PackageName, Version> for Issue3201Depe
         version: &Version,
     ) -> Result<Dependencies<PackageName, Version>, Box<dyn StdError>> {
         self.dependencies
-            .get(&(name.clone(), version.clone()))
+            .get(&(name, version.clone()))
             .cloned()
             .ok_or_else(|| "failed to get dependencies".into())
     }
@@ -66,529 +66,511 @@ impl Issue3201DependencyProvider {
         };
 
         this.available_versions
-            .entry("gleam_add_issue_2024_05_26".to_string())
+            .entry("gleam_add_issue_2024_05_26")
             .or_default()
             .push(Version::parse("0.0.0").unwrap());
         this.available_versions
-            .entry("argv".to_string())
+            .entry("argv")
             .or_default()
             .push(Version::parse("1.0.2").unwrap());
         this.available_versions
-            .entry("birl".to_string())
+            .entry("birl")
             .or_default()
             .push(Version::parse("1.7.0").unwrap());
         this.available_versions
-            .entry("gleam_javascript".to_string())
+            .entry("gleam_javascript")
             .or_default()
             .push(Version::parse("0.8.0").unwrap());
         this.available_versions
-            .entry("gleam_community_colour".to_string())
+            .entry("gleam_community_colour")
             .or_default()
             .push(Version::parse("1.4.0").unwrap());
         this.available_versions
-            .entry("gleam_community_ansi".to_string())
+            .entry("gleam_community_ansi")
             .or_default()
             .push(Version::parse("1.4.0").unwrap());
         this.available_versions
-            .entry("gleam_erlang".to_string())
+            .entry("gleam_erlang")
             .or_default()
             .push(Version::parse("0.25.0").unwrap());
         this.available_versions
-            .entry("tom".to_string())
+            .entry("tom")
             .or_default()
             .push(Version::parse("0.3.0").unwrap());
         this.available_versions
-            .entry("thoas".to_string())
+            .entry("thoas")
             .or_default()
             .push(Version::parse("1.2.1").unwrap());
         this.available_versions
-            .entry("glint".to_string())
+            .entry("glint")
             .or_default()
             .push(Version::parse("1.0.0-rc2").unwrap());
         this.available_versions
-            .entry("wisp".to_string())
+            .entry("wisp")
             .or_default()
             .push(Version::parse("0.14.0").unwrap());
         this.available_versions
-            .entry("wisp".to_string())
+            .entry("wisp")
             .or_default()
             .push(Version::parse("0.13.0").unwrap());
         this.available_versions
-            .entry("wisp".to_string())
+            .entry("wisp")
             .or_default()
             .push(Version::parse("0.12.0").unwrap());
         this.available_versions
-            .entry("wisp".to_string())
+            .entry("wisp")
             .or_default()
             .push(Version::parse("0.11.0").unwrap());
         this.available_versions
-            .entry("wisp".to_string())
+            .entry("wisp")
             .or_default()
             .push(Version::parse("0.10.0").unwrap());
         this.available_versions
-            .entry("wisp".to_string())
+            .entry("wisp")
             .or_default()
             .push(Version::parse("0.9.0").unwrap());
         this.available_versions
-            .entry("wisp".to_string())
+            .entry("wisp")
             .or_default()
             .push(Version::parse("0.8.0").unwrap());
         this.available_versions
-            .entry("wisp".to_string())
+            .entry("wisp")
             .or_default()
             .push(Version::parse("0.7.0").unwrap());
         this.available_versions
-            .entry("wisp".to_string())
+            .entry("wisp")
             .or_default()
             .push(Version::parse("0.6.0").unwrap());
         this.available_versions
-            .entry("wisp".to_string())
+            .entry("wisp")
             .or_default()
             .push(Version::parse("0.5.0").unwrap());
         this.available_versions
-            .entry("wisp".to_string())
+            .entry("wisp")
             .or_default()
             .push(Version::parse("0.4.0").unwrap());
         this.available_versions
-            .entry("wisp".to_string())
+            .entry("wisp")
             .or_default()
             .push(Version::parse("0.3.0").unwrap());
         this.available_versions
-            .entry("wisp".to_string())
+            .entry("wisp")
             .or_default()
             .push(Version::parse("0.2.0").unwrap());
         this.available_versions
-            .entry("wisp".to_string())
+            .entry("wisp")
             .or_default()
             .push(Version::parse("0.1.0").unwrap());
         this.available_versions
-            .entry("snag".to_string())
+            .entry("snag")
             .or_default()
             .push(Version::parse("0.3.0").unwrap());
         this.available_versions
-            .entry("gleam_otp".to_string())
+            .entry("gleam_otp")
             .or_default()
             .push(Version::parse("0.10.0").unwrap());
         this.available_versions
-            .entry("exception".to_string())
+            .entry("exception")
             .or_default()
             .push(Version::parse("2.0.0").unwrap());
         this.available_versions
-            .entry("ranger".to_string())
+            .entry("ranger")
             .or_default()
             .push(Version::parse("1.2.0").unwrap());
         this.available_versions
-            .entry("simplifile".to_string())
+            .entry("simplifile")
             .or_default()
             .push(Version::parse("1.7.0").unwrap());
         this.available_versions
-            .entry("filepath".to_string())
+            .entry("filepath")
             .or_default()
             .push(Version::parse("1.0.0").unwrap());
         this.available_versions
-            .entry("startest".to_string())
+            .entry("startest")
             .or_default()
             .push(Version::parse("0.2.4").unwrap());
         this.available_versions
-            .entry("gleam_json".to_string())
+            .entry("gleam_json")
             .or_default()
             .push(Version::parse("1.0.1").unwrap());
         this.available_versions
-            .entry("bigben".to_string())
+            .entry("bigben")
             .or_default()
             .push(Version::parse("1.0.0").unwrap());
         this.available_versions
-            .entry("gleam_stdlib".to_string())
+            .entry("gleam_stdlib")
             .or_default()
             .push(Version::parse("0.38.0").unwrap());
 
-        let _ = this.dependencies.insert(
+        this.dependencies.insert(
             (
-                "gleam_add_issue_2024_05_26".to_string(),
+                "gleam_add_issue_2024_05_26",
                 Version::parse("0.0.0").unwrap(),
             ),
             Dependencies::Known(Map::from_iter([
                 (
-                    "bigben".to_string(),
+                    "bigben",
                     Range::new("1.0.0".to_string()).to_pubgrub().unwrap(),
                 ),
                 (
-                    "gleam_stdlib".to_string(),
+                    "gleam_stdlib",
                     Range::new("0.38.0".to_string()).to_pubgrub().unwrap(),
                 ),
                 (
-                    "gleam_javascript".to_string(),
+                    "gleam_javascript",
                     Range::new("0.8.0".to_string()).to_pubgrub().unwrap(),
                 ),
                 (
-                    "gleam_community_colour".to_string(),
+                    "gleam_community_colour",
                     Range::new("1.4.0".to_string()).to_pubgrub().unwrap(),
                 ),
                 (
-                    "gleam_community_ansi".to_string(),
+                    "gleam_community_ansi",
                     Range::new("1.4.0".to_string()).to_pubgrub().unwrap(),
                 ),
                 (
-                    "gleam_erlang".to_string(),
+                    "gleam_erlang",
                     Range::new("0.25.0".to_string()).to_pubgrub().unwrap(),
                 ),
+                ("tom", Range::new("0.3.0".to_string()).to_pubgrub().unwrap()),
                 (
-                    "tom".to_string(),
-                    Range::new("0.3.0".to_string()).to_pubgrub().unwrap(),
-                ),
-                (
-                    "thoas".to_string(),
+                    "thoas",
                     Range::new("1.2.1".to_string()).to_pubgrub().unwrap(),
                 ),
                 (
-                    "glint".to_string(),
+                    "glint",
                     Range::new("1.0.0-rc2".to_string()).to_pubgrub().unwrap(),
                 ),
                 (
-                    "wisp".to_string(),
+                    "wisp",
                     pubgrub::range::Range::any(),
                     // Range::new("*".to_string()).to_pubgrub().unwrap(),
                 ),
                 (
-                    "snag".to_string(),
+                    "snag",
                     Range::new("0.3.0".to_string()).to_pubgrub().unwrap(),
                 ),
                 (
-                    "gleam_otp".to_string(),
+                    "gleam_otp",
                     Range::new("0.10.0".to_string()).to_pubgrub().unwrap(),
                 ),
                 (
-                    "simplifile".to_string(),
+                    "simplifile",
                     Range::new("1.7.0".to_string()).to_pubgrub().unwrap(),
                 ),
                 (
-                    "ranger".to_string(),
+                    "ranger",
                     Range::new("1.2.0".to_string()).to_pubgrub().unwrap(),
                 ),
                 (
-                    "exception".to_string(),
+                    "exception",
                     Range::new("2.0.0".to_string()).to_pubgrub().unwrap(),
                 ),
                 (
-                    "filepath".to_string(),
+                    "filepath",
                     Range::new("1.0.0".to_string()).to_pubgrub().unwrap(),
                 ),
                 (
-                    "gleam_json".to_string(),
+                    "gleam_json",
                     Range::new("1.0.1".to_string()).to_pubgrub().unwrap(),
                 ),
                 (
-                    "startest".to_string(),
+                    "startest",
                     Range::new("0.2.4".to_string()).to_pubgrub().unwrap(),
                 ),
                 (
-                    "argv".to_string(),
+                    "argv",
                     Range::new("1.0.2".to_string()).to_pubgrub().unwrap(),
                 ),
                 (
-                    "birl".to_string(),
+                    "birl",
                     Range::new("1.7.0".to_string()).to_pubgrub().unwrap(),
                 ),
             ])),
         );
-        let _ = this.dependencies.insert(
-            (
-                "gleam_stdlib".to_string(),
-                Version::parse("0.38.0").unwrap(),
-            ),
+        this.dependencies.insert(
+            ("gleam_stdlib", Version::parse("0.38.0").unwrap()),
             Dependencies::Known(Map::from_iter([])),
         );
-        let _ = this.dependencies.insert(
-            ("argv".to_string(), Version::parse("1.0.2").unwrap()),
+        this.dependencies.insert(
+            ("argv", Version::parse("1.0.2").unwrap()),
             Dependencies::Known(Map::from_iter([])),
         );
-        let _ = this.dependencies.insert(
-            ("birl".to_string(), Version::parse("1.7.0").unwrap()),
+        this.dependencies.insert(
+            ("birl", Version::parse("1.7.0").unwrap()),
             Dependencies::Known(Map::from_iter([
                 (
-                    "gleam_stdlib".to_string(),
+                    "gleam_stdlib",
                     Range::new(">= 0.37.0 and < 2.0.0".to_string())
                         .to_pubgrub()
                         .unwrap(),
                 ),
                 (
-                    "ranger".to_string(),
+                    "ranger",
                     Range::new(">= 1.2.0 and < 2.0.0".to_string())
                         .to_pubgrub()
                         .unwrap(),
                 ),
             ])),
         );
-        let _ = this.dependencies.insert(
-            ("bigben".to_string(), Version::parse("1.0.0").unwrap()),
+        this.dependencies.insert(
+            ("bigben", Version::parse("1.0.0").unwrap()),
             Dependencies::Known(Map::from_iter([
                 (
-                    "gleam_otp".to_string(),
+                    "gleam_otp",
                     Range::new(">= 0.10.0 and < 1.0.0".to_string())
                         .to_pubgrub()
                         .unwrap(),
                 ),
                 (
-                    "gleam_stdlib".to_string(),
+                    "gleam_stdlib",
                     Range::new(">= 0.34.0 and < 2.0.0".to_string())
                         .to_pubgrub()
                         .unwrap(),
                 ),
                 (
-                    "gleam_erlang".to_string(),
+                    "gleam_erlang",
                     Range::new(">= 0.25.0 and < 1.0.0".to_string())
                         .to_pubgrub()
                         .unwrap(),
                 ),
                 (
-                    "birl".to_string(),
+                    "birl",
                     Range::new(">= 1.6.0 and < 2.0.0".to_string())
                         .to_pubgrub()
                         .unwrap(),
                 ),
             ])),
         );
-        let _ = this.dependencies.insert(
-            (
-                "gleam_javascript".to_string(),
-                Version::parse("0.8.0").unwrap(),
-            ),
+        this.dependencies.insert(
+            ("gleam_javascript", Version::parse("0.8.0").unwrap()),
             Dependencies::Known(Map::from_iter([(
-                "gleam_stdlib".to_string(),
+                "gleam_stdlib",
                 Range::new(">= 0.19.0 and < 2.0.0".to_string())
                     .to_pubgrub()
                     .unwrap(),
             )])),
         );
-        let _ = this.dependencies.insert(
-            (
-                "gleam_community_colour".to_string(),
-                Version::parse("1.4.0").unwrap(),
-            ),
+        this.dependencies.insert(
+            ("gleam_community_colour", Version::parse("1.4.0").unwrap()),
             Dependencies::Known(Map::from_iter([
                 (
-                    "gleam_stdlib".to_string(),
+                    "gleam_stdlib",
                     Range::new(">= 0.34.0 and < 1.0.0".to_string())
                         .to_pubgrub()
                         .unwrap(),
                 ),
                 (
-                    "gleam_json".to_string(),
+                    "gleam_json",
                     Range::new(">= 0.7.0 and < 2.0.0".to_string())
                         .to_pubgrub()
                         .unwrap(),
                 ),
             ])),
         );
-        let _ = this.dependencies.insert(
-            (
-                "gleam_community_ansi".to_string(),
-                Version::parse("1.4.0").unwrap(),
-            ),
+        this.dependencies.insert(
+            ("gleam_community_ansi", Version::parse("1.4.0").unwrap()),
             Dependencies::Known(Map::from_iter([
                 (
-                    "gleam_community_colour".to_string(),
+                    "gleam_community_colour",
                     Range::new(">= 1.3.0 and < 2.0.0".to_string())
                         .to_pubgrub()
                         .unwrap(),
                 ),
                 (
-                    "gleam_stdlib".to_string(),
+                    "gleam_stdlib",
                     Range::new(">= 0.34.0 and < 1.0.0".to_string())
                         .to_pubgrub()
                         .unwrap(),
                 ),
             ])),
         );
-        let _ = this.dependencies.insert(
-            (
-                "gleam_erlang".to_string(),
-                Version::parse("0.25.0").unwrap(),
-            ),
+        this.dependencies.insert(
+            ("gleam_erlang", Version::parse("0.25.0").unwrap()),
             Dependencies::Known(Map::from_iter([(
-                "gleam_stdlib".to_string(),
+                "gleam_stdlib",
                 Range::new(">= 0.33.0 and < 2.0.0".to_string())
                     .to_pubgrub()
                     .unwrap(),
             )])),
         );
-        let _ = this.dependencies.insert(
-            ("tom".to_string(), Version::parse("0.3.0").unwrap()),
+        this.dependencies.insert(
+            ("tom", Version::parse("0.3.0").unwrap()),
             Dependencies::Known(Map::from_iter([(
-                "gleam_stdlib".to_string(),
+                "gleam_stdlib",
                 Range::new(">= 0.33.0 and < 1.0.0".to_string())
                     .to_pubgrub()
                     .unwrap(),
             )])),
         );
-        let _ = this.dependencies.insert(
-            ("thoas".to_string(), Version::parse("1.2.1").unwrap()),
+        this.dependencies.insert(
+            ("thoas", Version::parse("1.2.1").unwrap()),
             Dependencies::Known(Map::from_iter([])),
         );
-        let _ = this.dependencies.insert(
-            ("glint".to_string(), Version::parse("1.0.0-rc2").unwrap()),
+        this.dependencies.insert(
+            ("glint", Version::parse("1.0.0-rc2").unwrap()),
             Dependencies::Known(Map::from_iter([
                 (
-                    "gleam_community_colour".to_string(),
+                    "gleam_community_colour",
                     Range::new(">= 1.0.0 and < 2.0.0".to_string())
                         .to_pubgrub()
                         .unwrap(),
                 ),
                 (
-                    "gleam_community_ansi".to_string(),
+                    "gleam_community_ansi",
                     Range::new(">= 1.0.0 and < 2.0.0".to_string())
                         .to_pubgrub()
                         .unwrap(),
                 ),
                 (
-                    "snag".to_string(),
+                    "snag",
                     Range::new(">= 0.3.0 and < 1.0.0".to_string())
                         .to_pubgrub()
                         .unwrap(),
                 ),
                 (
-                    "gleam_stdlib".to_string(),
+                    "gleam_stdlib",
                     Range::new(">= 0.36.0 and < 2.0.0".to_string())
                         .to_pubgrub()
                         .unwrap(),
                 ),
             ])),
         );
-        let _ = this.dependencies.insert(
-            ("snag".to_string(), Version::parse("0.3.0").unwrap()),
+        this.dependencies.insert(
+            ("snag", Version::parse("0.3.0").unwrap()),
             Dependencies::Known(Map::from_iter([(
-                "gleam_stdlib".to_string(),
+                "gleam_stdlib",
                 Range::new(">= 0.34.0 and < 1.0.0".to_string())
                     .to_pubgrub()
                     .unwrap(),
             )])),
         );
-        let _ = this.dependencies.insert(
-            ("gleam_otp".to_string(), Version::parse("0.10.0").unwrap()),
+        this.dependencies.insert(
+            ("gleam_otp", Version::parse("0.10.0").unwrap()),
             Dependencies::Known(Map::from_iter([
                 (
-                    "gleam_erlang".to_string(),
+                    "gleam_erlang",
                     Range::new(">= 0.22.0 and < 1.0.0".to_string())
                         .to_pubgrub()
                         .unwrap(),
                 ),
                 (
-                    "gleam_stdlib".to_string(),
+                    "gleam_stdlib",
                     Range::new(">= 0.32.0 and < 1.0.0".to_string())
                         .to_pubgrub()
                         .unwrap(),
                 ),
             ])),
         );
-        let _ = this.dependencies.insert(
-            ("exception".to_string(), Version::parse("2.0.0").unwrap()),
+        this.dependencies.insert(
+            ("exception", Version::parse("2.0.0").unwrap()),
             Dependencies::Known(Map::from_iter([(
-                "gleam_stdlib".to_string(),
+                "gleam_stdlib",
                 Range::new(">= 0.30.0 and < 2.0.0".to_string())
                     .to_pubgrub()
                     .unwrap(),
             )])),
         );
-        let _ = this.dependencies.insert(
-            ("ranger".to_string(), Version::parse("1.2.0").unwrap()),
+        this.dependencies.insert(
+            ("ranger", Version::parse("1.2.0").unwrap()),
             Dependencies::Known(Map::from_iter([(
-                "gleam_stdlib".to_string(),
+                "gleam_stdlib",
                 Range::new(">= 0.36.0 and < 2.0.0".to_string())
                     .to_pubgrub()
                     .unwrap(),
             )])),
         );
-        let _ = this.dependencies.insert(
-            ("simplifile".to_string(), Version::parse("1.7.0").unwrap()),
+        this.dependencies.insert(
+            ("simplifile", Version::parse("1.7.0").unwrap()),
             Dependencies::Known(Map::from_iter([
                 (
-                    "filepath".to_string(),
+                    "filepath",
                     Range::new(">= 1.0.0 and < 2.0.0".to_string())
                         .to_pubgrub()
                         .unwrap(),
                 ),
                 (
-                    "gleam_stdlib".to_string(),
+                    "gleam_stdlib",
                     Range::new(">= 0.34.0 and < 2.0.0".to_string())
                         .to_pubgrub()
                         .unwrap(),
                 ),
             ])),
         );
-        let _ = this.dependencies.insert(
-            ("filepath".to_string(), Version::parse("1.0.0").unwrap()),
+        this.dependencies.insert(
+            ("filepath", Version::parse("1.0.0").unwrap()),
             Dependencies::Known(Map::from_iter([(
-                "gleam_stdlib".to_string(),
+                "gleam_stdlib",
                 Range::new(">= 0.32.0 and < 1.0.0".to_string())
                     .to_pubgrub()
                     .unwrap(),
             )])),
         );
-        let _ = this.dependencies.insert(
-            ("startest".to_string(), Version::parse("0.2.4").unwrap()),
+        this.dependencies.insert(
+            ("startest", Version::parse("0.2.4").unwrap()),
             Dependencies::Known(Map::from_iter([
                 (
-                    "argv".to_string(),
+                    "argv",
                     Range::new(">= 1.0.2 and < 2.0.0".to_string())
                         .to_pubgrub()
                         .unwrap(),
                 ),
                 (
-                    "gleam_stdlib".to_string(),
+                    "gleam_stdlib",
                     Range::new(">= 0.36.0 and < 2.0.0".to_string())
                         .to_pubgrub()
                         .unwrap(),
                 ),
                 (
-                    "exception".to_string(),
+                    "exception",
                     Range::new(">= 2.0.0 and < 3.0.0".to_string())
                         .to_pubgrub()
                         .unwrap(),
                 ),
                 (
-                    "simplifile".to_string(),
+                    "simplifile",
                     Range::new(">= 1.7.0 and < 2.0.0".to_string())
                         .to_pubgrub()
                         .unwrap(),
                 ),
                 (
-                    "gleam_javascript".to_string(),
+                    "gleam_javascript",
                     Range::new(">= 0.8.0 and < 1.0.0".to_string())
                         .to_pubgrub()
                         .unwrap(),
                 ),
                 (
-                    "gleam_community_ansi".to_string(),
+                    "gleam_community_ansi",
                     Range::new(">= 1.4.0 and < 2.0.0".to_string())
                         .to_pubgrub()
                         .unwrap(),
                 ),
                 (
-                    "gleam_erlang".to_string(),
+                    "gleam_erlang",
                     Range::new(">= 0.25.0 and < 1.0.0".to_string())
                         .to_pubgrub()
                         .unwrap(),
                 ),
                 (
-                    "tom".to_string(),
+                    "tom",
                     Range::new(">= 0.3.0 and < 1.0.0".to_string())
                         .to_pubgrub()
                         .unwrap(),
                 ),
                 (
-                    "glint".to_string(),
+                    "glint",
                     Range::new(">= 1.0.0-rc2 and < 1.0.0-rc3".to_string())
                         .to_pubgrub()
                         .unwrap(),
                 ),
                 (
-                    "bigben".to_string(),
+                    "bigben",
                     Range::new(">= 1.0.0 and < 2.0.0".to_string())
                         .to_pubgrub()
                         .unwrap(),
                 ),
                 (
-                    "birl".to_string(),
+                    "birl",
                     Range::new(">= 1.6.1 and < 2.0.0".to_string())
                         .to_pubgrub()
                         .unwrap(),
